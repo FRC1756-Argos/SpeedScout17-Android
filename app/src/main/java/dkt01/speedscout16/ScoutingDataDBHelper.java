@@ -13,6 +13,7 @@ import android.util.Pair;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -205,8 +206,28 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         this.onCreate(m_db);
     }
 
+    FilenameFilter csvFilter = new FilenameFilter() {
+        File f;
+        public boolean accept(File dir, String name) {
+            if(name.endsWith(".csv")) {
+                return true;
+            }
+            return false;
+        }
+    };
+
     public ArrayList<Uri> getCsv(ArrayList<Integer> times)
     {
+        // Delete old files before generating new files
+        // Just prevents accumulation of temporary files
+        String oldFiles[] = m_context.getFilesDir().list(csvFilter);
+        for(String csvFile : oldFiles)
+        {
+            File fileToDelete = new File(m_context.getFilesDir(), csvFile);
+            boolean retval = fileToDelete.delete();
+            Log.i("DELETE",csvFile+" : "+ String.valueOf(retval));
+        }
+
         ArrayList<Uri> csvFiles = new ArrayList<>();
         for(Integer time : times)
         {
@@ -270,6 +291,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 {
                     Log.w("FILE",fileName+" "+m_context.getFilesDir().getAbsolutePath());
                     matchFile = new File(m_context.getFilesDir(),fileName+".csv");// (fileName, ".csv", m_context.getFilesDir());
+                    matchFile.setReadable(true,false);
                     matchFileWriter = new FileWriter(matchFile, false);
                     matchFileWriter.write(fileData.toString());
                     matchFileWriter.close();

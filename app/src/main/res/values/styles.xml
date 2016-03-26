@@ -1,7 +1,6 @@
 <resources>
 
     <style name="SpeedScout16Theme" parent="Theme.AppCompat">
-        <item name="android:colorAccent">@android:color/holo_blue_dark</item>
         <item name="colorAccent">@android:color/holo_blue_dark</item>
     </style>
 

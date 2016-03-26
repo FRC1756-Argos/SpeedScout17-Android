@@ -29,9 +29,9 @@ public class MainActivity extends ActionBarActivity
         Random r = new Random();
         matchesDB = new ScoutingDataDBHelper(this);
         matchesDB.clearMatches();
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < 8; i++)
         {
-            for(int j = 0; j< 1; j++)
+            for(int j = 0; j < 8; j++)
             {
                 matchesDB.insertMatch(r.nextInt(),i,j%2==0?"Red":"Blue",j,"N","Y","N","N",1,2,1,1,2,2,3,3,4,4,5,1,2,"N","Y");
             }
@@ -53,9 +53,9 @@ public class MainActivity extends ActionBarActivity
         Intent shareDataIntent = new Intent();
         shareDataIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
         shareDataIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,matchCsvs);
-        shareDataIntent.setType("text/plain");
+        shareDataIntent.setType("text/csv");
         shareDataIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareDataIntent, "Share scouting data to.."));
+        startActivity(Intent.createChooser(shareDataIntent, "Share scouting data to..."));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
