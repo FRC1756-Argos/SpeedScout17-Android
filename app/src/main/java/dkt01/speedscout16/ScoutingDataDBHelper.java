@@ -6,8 +6,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.util.Pair;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ScoutingDataDBHelper extends SQLiteOpenHelper {
@@ -197,6 +203,87 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     {
         m_db.execSQL("DROP TABLE IF EXISTS " + MATCHES_TABLE_NAME);
         this.onCreate(m_db);
+    }
+
+    public ArrayList<Uri> getCsv(ArrayList<Integer> times)
+    {
+        ArrayList<Uri> csvFiles = new ArrayList<>();
+        for(Integer time : times)
+        {
+            Cursor result = getMatch(time);
+            result.moveToFirst();
+            if(result.isAfterLast() == false)
+            {
+                String fileName = String.valueOf(result.getInt(result.getColumnIndex(TEAM_COL_NAME))) + "_" +
+                        String.valueOf(result.getInt(result.getColumnIndex(MATCH_COL_NAME)));
+                StringBuilder fileData = new StringBuilder();
+                fileData.append("Team #, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TEAM_COL_NAME))));
+                fileData.append("\nA. Color, ");
+                fileData.append(result.getString(result.getColumnIndex(ALLIANCE_COL_NAME)));
+                fileData.append("\nMatch #, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(MATCH_COL_NAME))));
+                fileData.append("\n, Autonomous");
+                fileData.append("\nReached Def., ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_REACHED_COL_NAME)));
+                fileData.append("\nCrossed Def., ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_CROSSED_COL_NAME)));
+                fileData.append("\nLow Goal, ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_LOWGOAL_COL_NAME)));
+                fileData.append("\nHigh Goal, ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_HIGHGOAL_COL_NAME)));
+                fileData.append("\n, Teleop");
+                fileData.append("\nLow Goal, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_LOWGOAL_COL_NAME))));
+                fileData.append("\nHigh Goal, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_HIGHGOAL_COL_NAME))));
+                fileData.append("\nPortcullis, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_PORTCULLIS_COL_NAME))));
+                fileData.append("\nCheval De Frise, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_CHEVAL_COL_NAME))));
+                fileData.append("\nMoat, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_MOAT_COL_NAME))));
+                fileData.append("\nRamparts, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_RAMP_COL_NAME))));
+                fileData.append("\nDrawbridge, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_DRAWBRIDGE_COL_NAME))));
+                fileData.append("\nSally Port, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_SALLYPORT_COL_NAME))));
+                fileData.append("\nRock Wall, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_ROCKWALL_COL_NAME))));
+                fileData.append("\nRough Terrain, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_ROUGHTERRAIN_COL_NAME))));
+                fileData.append("\nLow Bar, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_LOWBAR_COL_NAME))));
+                fileData.append("\nRobots Blocked, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_BLOCKROBOT_COL_NAME))));
+                fileData.append("\nShots Blocked, ");
+                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_BLOCKSHOT_COL_NAME))));
+                fileData.append("\nChallenged Tower, ");
+                fileData.append(result.getString(result.getColumnIndex(TELE_CHALLENGE_COL_NAME)));
+                fileData.append("\nScaled Tower, ");
+                fileData.append(result.getString(result.getColumnIndex(TELE_SCALE_COL_NAME)));
+
+                File matchFile = null;
+                FileWriter matchFileWriter = null;
+                try
+                {
+                    Log.w("FILE",fileName+" "+m_context.getFilesDir().getAbsolutePath());
+                    matchFile = new File(m_context.getFilesDir(),fileName+".csv");// (fileName, ".csv", m_context.getFilesDir());
+                    matchFileWriter = new FileWriter(matchFile, false);
+                    matchFileWriter.write(fileData.toString());
+                    matchFileWriter.close();
+                    Log.w("FILE",matchFile.getAbsolutePath());
+                    Uri matchFileUri = FileProvider.getUriForFile(m_context, "com.dkt01.speedscout16.fileprovider", matchFile);
+                    csvFiles.add(matchFileUri);
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return csvFiles;
     }
 
     public ScoutingDataDBHelper open() throws SQLException
