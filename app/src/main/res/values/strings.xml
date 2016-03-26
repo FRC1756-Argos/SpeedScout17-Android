@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SpeedScout16</string>
+    <string name="list_title">Scouting Files</string>
+    <string name="action_new">New Match</string>
+    <string name="action_select">Select Matches</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 </resources>
