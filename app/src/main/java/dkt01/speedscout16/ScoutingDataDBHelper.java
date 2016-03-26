@@ -225,7 +225,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         {
             File fileToDelete = new File(m_context.getFilesDir(), csvFile);
             boolean retval = fileToDelete.delete();
-            Log.i("DELETE",csvFile+" : "+ String.valueOf(retval));
+            Log.d("DELETE",csvFile+" : "+ String.valueOf(retval));
         }
 
         ArrayList<Uri> csvFiles = new ArrayList<>();
@@ -289,13 +289,13 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 FileWriter matchFileWriter = null;
                 try
                 {
-                    Log.w("FILE",fileName+" "+m_context.getFilesDir().getAbsolutePath());
+//                    Log.d("FILE",fileName+" "+m_context.getFilesDir().getAbsolutePath());
                     matchFile = new File(m_context.getFilesDir(),fileName+".csv");// (fileName, ".csv", m_context.getFilesDir());
                     matchFile.setReadable(true,false);
                     matchFileWriter = new FileWriter(matchFile, false);
                     matchFileWriter.write(fileData.toString());
                     matchFileWriter.close();
-                    Log.w("FILE",matchFile.getAbsolutePath());
+//                    Log.d("FILE",matchFile.getAbsolutePath());
                     Uri matchFileUri = FileProvider.getUriForFile(m_context, "com.dkt01.speedscout16.fileprovider", matchFile);
                     csvFiles.add(matchFileUri);
                 }
