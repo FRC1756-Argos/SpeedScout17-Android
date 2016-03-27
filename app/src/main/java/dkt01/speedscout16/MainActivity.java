@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Pair;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,8 +25,26 @@ public class MainActivity extends ActionBarActivity
     private ScoutingDataDBHelper matchesDB;
     private ArrayList<Pair<Integer, String> > matchesList;
     private ListView matchesListView;
+
+    private MenuItem selectButton;
+    private MenuItem newButton;
+    private MenuItem allButton;
+    private MenuItem cancelButton;
+    private MenuItem deleteButton;
+    private MenuItem shareButton;
+
     MatchListAdapter matchesListAdapter;
-//    ArrayAdapter<Pair<Integer, String> > matchesListAdapter;
+
+    private AdapterView.OnItemClickListener matchClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            Pair<Integer,String> selected = (Pair<Integer,String>)parent.getAdapter().getItem(position);
+            Intent newFileIntent = new Intent(MainActivity.this,EntryActivity.class);
+            newFileIntent.putExtra(CREATE_MESSAGE,selected.first);
+            startActivityForResult(newFileIntent,ENTRY_REQUEST);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,58 +54,39 @@ public class MainActivity extends ActionBarActivity
         matchesListView = (ListView) findViewById(R.id.matchesListView);
         Random r = new Random();
         matchesDB = new ScoutingDataDBHelper(this);
-//        matchesDB.clearMatches();
-//        for(int i = 0; i < 8; i++)
-//        {
-//            for(int j = 0; j < 8; j++)
-//            {
-//                matchesDB.insertMatch(r.nextInt(),i,j%2==0?"Red":"Blue",j,"N","Y","N","N",1,2,1,1,2,2,3,3,4,4,5,1,2,"N","Y");
-//            }
-//        }
 
         matchesList = matchesDB.getMatches();
         matchesListAdapter = new MatchListAdapter(this,matchesList);
-//        matchesListAdapter = new ArrayAdapter<>(this, R.layout.matches_list_view_item, matchesList);
         matchesListView.setAdapter(matchesListAdapter);
-        matchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Pair<Integer,String> selected = (Pair<Integer,String>)parent.getAdapter().getItem(position);
-                Intent newFileIntent = new Intent(MainActivity.this,EntryActivity.class);
-                newFileIntent.putExtra(CREATE_MESSAGE,selected.first);
-                startActivityForResult(newFileIntent,ENTRY_REQUEST);
-            }
-        });
-
-//        ArrayList<Integer> times = new ArrayList<>();
-//
-//        for(Pair<Integer,String> match : matchesList)
-//        {
-//            times.add(match.first);
-//        }
-//
-//        ArrayList<Uri> matchCsvs = matchesDB.getCsv(times);
-//
-//        Intent shareDataIntent = new Intent();
-//        shareDataIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-//        shareDataIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,matchCsvs);
-//        shareDataIntent.setType("text/csv");
-//        shareDataIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        startActivity(Intent.createChooser(shareDataIntent, "Share scouting data to..."));
+        matchesListView.setOnItemClickListener(matchClickListener);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_menu, menu);
+        selectButton = menu.findItem(R.id.action_select);
+        newButton = menu.findItem(R.id.action_new);
+        allButton = menu.findItem(R.id.action_all);
+        cancelButton = menu.findItem(R.id.action_cancel);
+        deleteButton = menu.findItem(R.id.action_delete);
+        shareButton = menu.findItem(R.id.action_share);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SparseBooleanArray selected;
         switch (item.getItemId()) {
             case R.id.action_select:
-
+                selectButton.setVisible(false);
+                newButton.setVisible(false);
+                allButton.setVisible(true);
+                cancelButton.setVisible(true);
+                shareButton.setVisible(true);
+                deleteButton.setVisible(true);
+                matchesListAdapter.showCheckBoxes(true);
+                matchesListView.setOnItemClickListener(null);
+                matchesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 return true;
 
             case R.id.action_new:
@@ -96,12 +95,95 @@ public class MainActivity extends ActionBarActivity
                 startActivityForResult(newFileIntent,ENTRY_REQUEST);
                 return true;
 
+            case R.id.action_cancel:
+                selectButton.setVisible(true);
+                newButton.setVisible(true);
+                allButton.setVisible(false);
+                cancelButton.setVisible(false);
+                shareButton.setVisible(false);
+                deleteButton.setVisible(false);
+                selectAll(false);
+                matchesListAdapter.showCheckBoxes(false);
+                matchesListView.setOnItemClickListener(matchClickListener);
+                matchesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                return true;
+
+            case R.id.action_delete:
+                selectButton.setVisible(true);
+                newButton.setVisible(true);
+                allButton.setVisible(false);
+                cancelButton.setVisible(false);
+                shareButton.setVisible(false);
+                deleteButton.setVisible(false);
+                selected = matchesListView.getCheckedItemPositions();
+                // Go in reverse to preserve indices
+                for(int position = 0; position < selected.size(); position++)
+                {
+                    if(selected.valueAt(position))
+                    {
+                        Pair<Integer, String> temp = matchesListAdapter.getEntry(position);
+                        matchesDB.deleteMatch(temp.first);
+                    }
+                }
+                matchesList.clear();
+                matchesList = matchesDB.getMatches();
+                matchesListAdapter.Update(matchesList);
+                selectAll(false);
+                matchesListAdapter.showCheckBoxes(false);
+                matchesListView.setOnItemClickListener(matchClickListener);
+                matchesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                return true;
+
+            case R.id.action_share:
+                ArrayList<Integer> times = new ArrayList<>();
+                selected = matchesListView.getCheckedItemPositions();
+                for(int position = 0; position < selected.size(); position++)
+                {
+                    if(selected.valueAt(position))
+                    {
+                        times.add(matchesListAdapter.getEntry(position).first);
+                    }
+                }
+
+                ArrayList<Uri> matchCsvs = matchesDB.getCsv(times);
+
+                Intent shareDataIntent = new Intent();
+                shareDataIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                shareDataIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,matchCsvs);
+                shareDataIntent.setType("text/csv");
+                shareDataIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(shareDataIntent, "Share scouting data to..."));
+
+                selectButton.setVisible(true);
+                newButton.setVisible(true);
+                allButton.setVisible(false);
+                cancelButton.setVisible(false);
+                shareButton.setVisible(false);
+                deleteButton.setVisible(false);
+                selectAll(false);
+                matchesListAdapter.showCheckBoxes(false);
+                matchesListView.setOnItemClickListener(matchClickListener);
+                matchesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                return true;
+
+            case R.id.action_all:
+                selectAll(true);
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
+    }
+
+    private void selectAll(boolean selected)
+    {
+        for(int i = 0; i < matchesListAdapter.getCount(); i++)
+        {
+            matchesListView.setItemChecked(i,selected);
+        }
+        matchesListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -115,6 +197,7 @@ public class MainActivity extends ActionBarActivity
                 matchesListAdapter.Update(matchesList);
             }
             // Other option is RESULT_CANCELED (not used)
+            selectAll(false);
         }
     }
 

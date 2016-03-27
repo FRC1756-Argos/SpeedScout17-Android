@@ -9,6 +9,9 @@
     <string name="action_select">Select Matches</string>
     <string name="action_save">Save Match</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_all">Select All</string>
+    <string name="action_delete">Delete Selections</string>
+    <string name="action_share">Share Selections</string>
 
     <!-- spinner values -->
     <string-array name="auto_defense_array">

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class MatchListAdapter extends BaseAdapter
     private Context mContext;
     private ArrayList<Pair<Integer, String> > kvPair;
     private ArrayList<String> mIdList;
+    private boolean checkBoxesVisible = false;
 
     public MatchListAdapter(Context context, ArrayList<Pair<Integer,String> > arrayList) {
         this.mContext = context;
@@ -103,8 +105,22 @@ public class MatchListAdapter extends BaseAdapter
             int layoutResource = R.layout.matches_list_view_item;
             view = LayoutInflater.from(mContext).inflate(layoutResource, null);
         }
-        TextView tv = (TextView) view.findViewById(R.id.matches_list_view_text);
+        CheckedTextView tv = (CheckedTextView) view.findViewById(R.id.matches_list_view_text);
         tv.setText(object.second);
+        if(checkBoxesVisible)
+        {
+            tv.setCheckMarkDrawable(R.drawable.abc_btn_check_material);
+        }
+        else
+        {
+            tv.setCheckMarkDrawable(null);
+        }
         return view;
+    }
+
+    public void showCheckBoxes(boolean show)
+    {
+        checkBoxesVisible = show;
+        notifyDataSetChanged();
     }
 }
