@@ -35,6 +35,16 @@ public class MatchListAdapter extends BaseAdapter
         }
     }
 
+    public void Update(ArrayList<Pair<Integer,String> > newList)
+    {
+        mIdList.clear();
+        kvPair.clear();
+        for (Pair<Integer,String> entry : newList)
+        {
+            add(entry);
+        }
+    }
+
     public Pair<Integer,String> getObject(int position) {
         return kvPair.get(position);
     }

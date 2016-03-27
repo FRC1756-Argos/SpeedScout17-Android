@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.Random;
 public class MainActivity extends ActionBarActivity
 {
     public final static String CREATE_MESSAGE = "com.dkt01.speedscout16.CREATE_MESSAGE";
+
+    public final static int ENTRY_REQUEST = 1756;
 
     private ScoutingDataDBHelper matchesDB;
     private ArrayList<Pair<Integer, String> > matchesList;
@@ -44,6 +49,16 @@ public class MainActivity extends ActionBarActivity
         matchesListAdapter = new MatchListAdapter(this,matchesList);
 //        matchesListAdapter = new ArrayAdapter<>(this, R.layout.matches_list_view_item, matchesList);
         matchesListView.setAdapter(matchesListAdapter);
+        matchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Pair<Integer,String> selected = (Pair<Integer,String>)parent.getAdapter().getItem(position);
+                Intent newFileIntent = new Intent(MainActivity.this,EntryActivity.class);
+                newFileIntent.putExtra(CREATE_MESSAGE,selected.first);
+                startActivityForResult(newFileIntent,ENTRY_REQUEST);
+            }
+        });
 
 //        ArrayList<Integer> times = new ArrayList<>();
 //
@@ -77,8 +92,8 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.action_new:
                 Intent newFileIntent = new Intent(this,EntryActivity.class);
-                newFileIntent.putExtra(CREATE_MESSAGE,(int)0);
-                startActivity(newFileIntent);
+                newFileIntent.putExtra(CREATE_MESSAGE,0);
+                startActivityForResult(newFileIntent,ENTRY_REQUEST);
                 return true;
 
             default:
@@ -88,4 +103,19 @@ public class MainActivity extends ActionBarActivity
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == ENTRY_REQUEST) {
+            // Check if an update was made
+            if (resultCode == RESULT_OK) {
+                matchesList.clear();
+                matchesList = matchesDB.getMatches();
+                matchesListAdapter.Update(matchesList);
+            }
+            // Other option is RESULT_CANCELED (not used)
+        }
+    }
+
 }
