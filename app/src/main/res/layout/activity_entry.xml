@@ -181,7 +181,7 @@
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:text="Cheval De Frise"/>
             <Button
                 android:id="@+id/entry_cheval_dec"
@@ -295,7 +295,7 @@
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:text="Rough Terrain"/>
             <Button
                 android:id="@+id/entry_roughterrain_dec"
