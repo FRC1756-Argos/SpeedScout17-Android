@@ -11,12 +11,13 @@
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.dkt01.speedscout16.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/list_title"
@@ -29,13 +30,21 @@
         </activity>
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
-            <!--<intent-filter>
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".EntryActivity"
+            android:label="@string/entry_title"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

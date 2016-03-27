@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.ArrayAdapter;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import java.util.Random;
 
 public class MainActivity extends ActionBarActivity
 {
+    public final static String CREATE_MESSAGE = "com.dkt01.speedscout16.CREATE_MESSAGE";
+
     private ScoutingDataDBHelper matchesDB;
     private ArrayList<Pair<Integer, String> > matchesList;
     private ListView matchesListView;
@@ -64,5 +66,26 @@ public class MainActivity extends ActionBarActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_select:
+
+                return true;
+
+            case R.id.action_new:
+                Intent newFileIntent = new Intent(this,EntryActivity.class);
+                newFileIntent.putExtra(CREATE_MESSAGE,(int)0);
+                startActivity(newFileIntent);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

@@ -1,8 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SpeedScout16</string>
     <string name="list_title">Scouting Files</string>
+    <string name="entry_title">New File</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+
     <string name="action_new">New Match</string>
     <string name="action_select">Select Matches</string>
+    <string name="action_save">Save Match</string>
+    <string name="action_cancel">Cancel</string>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <!-- spinner values -->
+    <string-array name="auto_defense_array">
+        <item>Motionless</item>
+        <item>Reached Defense</item>
+        <item>Crossed Portcullis</item>
+        <item>Crossed Cheval De Frise</item>
+        <item>Crossed Moat</item>
+        <item>Crossed Ramparts</item>
+        <item>Crossed Drawbridge</item>
+        <item>Crossed Sally Port</item>
+        <item>Crossed Rock Wall</item>
+        <item>Crossed Rough Terrain</item>
+        <item>Crossed Low Bar</item>
+    </string-array>
+    <string-array name="auto_score_array">
+        <item>No Goal</item>
+        <item>Low Goal</item>
+        <item>High Goal</item>
+    </string-array>
+    <string-array name="tele_tower_array">
+        <item>Failed</item>
+        <item>Challenged</item>
+        <item>Scaled</item>
+    </string-array>
 </resources>
