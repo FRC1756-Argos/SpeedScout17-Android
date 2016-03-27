@@ -44,6 +44,8 @@
                 android:text="Team Color:"/>
             <ToggleButton
                 android:id="@+id/entry_team_color"
+                android:onClick="colorClick"
+                android:background="@color/red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
@@ -121,6 +123,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_low_goal_inc"
+                android:onClick="lowGoalIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -128,6 +131,7 @@
                 android:text="Low Goal"/>
             <Button
                 android:id="@+id/entry_low_goal_dec"
+                android:onClick="lowGoalDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -135,6 +139,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_high_goal_inc"
+                android:onClick="HighGoalIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -142,6 +147,7 @@
                 android:text="High Goal"/>
             <Button
                 android:id="@+id/entry_high_goal_dec"
+                android:onClick="HighGoalDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -155,6 +161,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_portcullis_inc"
+                android:onClick="PortcullisIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -162,6 +169,7 @@
                 android:text="Portcullis"/>
             <Button
                 android:id="@+id/entry_portcullis_dec"
+                android:onClick="PortcullisDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -169,6 +177,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_cheval_inc"
+                android:onClick="ChevalIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -176,6 +185,7 @@
                 android:text="Cheval De Frise"/>
             <Button
                 android:id="@+id/entry_cheval_dec"
+                android:onClick="ChevalDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -189,6 +199,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_moat_inc"
+                android:onClick="MoatIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -196,6 +207,7 @@
                 android:text="Moat"/>
             <Button
                 android:id="@+id/entry_moat_dec"
+                android:onClick="MoatDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -203,6 +215,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_ramparts_inc"
+                android:onClick="RampartsIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -210,6 +223,7 @@
                 android:text="Ramparts"/>
             <Button
                 android:id="@+id/entry_ramparts_dec"
+                android:onClick="RampartsDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -223,6 +237,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_drawbridge_inc"
+                android:onClick="DrawbridgeIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -230,6 +245,7 @@
                 android:text="Drawbridge"/>
             <Button
                 android:id="@+id/entry_drawbridge_dec"
+                android:onClick="DrawbridgeDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -237,6 +253,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_sallyport_inc"
+                android:onClick="SallyPortIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -244,6 +261,7 @@
                 android:text="Sally Port"/>
             <Button
                 android:id="@+id/entry_sallyport_dec"
+                android:onClick="SallyPortDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -257,6 +275,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_rockwall_inc"
+                android:onClick="RockWallIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -264,6 +283,7 @@
                 android:text="Rock Wall"/>
             <Button
                 android:id="@+id/entry_rockwall_dec"
+                android:onClick="RockWallDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -271,6 +291,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_roughterrain_inc"
+                android:onClick="RoughTerrainIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -278,6 +299,7 @@
                 android:text="Rough Terrain"/>
             <Button
                 android:id="@+id/entry_roughterrain_dec"
+                android:onClick="RoughTerrainDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -291,6 +313,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_lowbar_inc"
+                android:onClick="LowBarIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -298,6 +321,7 @@
                 android:text="Low Bar"/>
             <Button
                 android:id="@+id/entry_lowbar_dec"
+                android:onClick="LowBarDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -311,6 +335,7 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/entry_robotblock_inc"
+                android:onClick="BlockRobotIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -318,6 +343,7 @@
                 android:text="Robots Blocked"/>
             <Button
                 android:id="@+id/entry_robotblock_dec"
+                android:onClick="BlockRobotDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -325,6 +351,7 @@
                 android:text="0"/>
             <Button
                 android:id="@+id/entry_shotblock_inc"
+                android:onClick="BlockShotIncClick"
                 android:layout_width="115sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
@@ -332,6 +359,7 @@
                 android:text="Shots Blocked"/>
             <Button
                 android:id="@+id/entry_shotblock_dec"
+                android:onClick="BlockShotDecClick"
                 android:layout_width="40sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
