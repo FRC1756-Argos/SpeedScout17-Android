@@ -126,6 +126,13 @@ public class EntryActivity extends ActionBarActivity {
                 matchTime = 0;
             }
         }
+        else
+        {
+            // Address corner case where previous call to EntryActivity set the color to
+            // blue and then the text changes back this time without changing the color
+            teamColorButton.setBackgroundColor(getResources().getColor(R.color.red));
+        }
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
