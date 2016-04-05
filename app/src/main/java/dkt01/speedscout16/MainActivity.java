@@ -1,5 +1,7 @@
 package dkt01.speedscout16;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -109,29 +111,22 @@ public class MainActivity extends ActionBarActivity
                 return true;
 
             case R.id.action_delete:
-                selectButton.setVisible(true);
-                newButton.setVisible(true);
-                allButton.setVisible(false);
-                cancelButton.setVisible(false);
-                shareButton.setVisible(false);
-                deleteButton.setVisible(false);
-                selected = matchesListView.getCheckedItemPositions();
-                // Go in reverse to preserve indices
-                for(int position = 0; position < selected.size(); position++)
-                {
-                    if(selected.valueAt(position))
-                    {
-                        Pair<Integer, String> temp = matchesListAdapter.getEntry(position);
-                        matchesDB.deleteMatch(temp.first);
-                    }
-                }
-                matchesList.clear();
-                matchesList = matchesDB.getMatches();
-                matchesListAdapter.Update(matchesList);
-                selectAll(false);
-                matchesListAdapter.showCheckBoxes(false);
-                matchesListView.setOnItemClickListener(matchClickListener);
-                matchesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                new AlertDialog.Builder(this)
+                    .setTitle("Delete files?")
+                    .setMessage("Are you sure you want to delete the selected match files?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            deleteSelections();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
                 return true;
 
             case R.id.action_share:
@@ -175,6 +170,33 @@ public class MainActivity extends ActionBarActivity
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteSelections()
+    {
+        selectButton.setVisible(true);
+        newButton.setVisible(true);
+        allButton.setVisible(false);
+        cancelButton.setVisible(false);
+        shareButton.setVisible(false);
+        deleteButton.setVisible(false);
+        SparseBooleanArray selected = matchesListView.getCheckedItemPositions();
+        // Go in reverse to preserve indices
+        for(int position = 0; position < selected.size(); position++)
+        {
+            if(selected.valueAt(position))
+            {
+                Pair<Integer, String> temp = matchesListAdapter.getEntry(position);
+                matchesDB.deleteMatch(temp.first);
+            }
+        }
+        matchesList.clear();
+        matchesList = matchesDB.getMatches();
+        matchesListAdapter.Update(matchesList);
+        selectAll(false);
+        matchesListAdapter.showCheckBoxes(false);
+        matchesListView.setOnItemClickListener(matchClickListener);
+        matchesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
     private void selectAll(boolean selected)
