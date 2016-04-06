@@ -165,6 +165,11 @@ public class MainActivity extends ActionBarActivity
                 selectAll(true);
                 return true;
 
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(this,AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
