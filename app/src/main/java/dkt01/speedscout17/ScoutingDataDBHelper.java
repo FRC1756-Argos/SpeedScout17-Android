@@ -1,4 +1,4 @@
-package dkt01.speedscout16;
+package dkt01.speedscout17;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -296,7 +296,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                     matchFileWriter.write(fileData.toString());
                     matchFileWriter.close();
 //                    Log.d("FILE",matchFile.getAbsolutePath());
-                    Uri matchFileUri = FileProvider.getUriForFile(m_context, "com.dkt01.speedscout16.fileprovider", matchFile);
+                    Uri matchFileUri = FileProvider.getUriForFile(m_context, "com.dkt01.speedscout17.fileprovider", matchFile);
                     csvFiles.add(matchFileUri);
                 }
                 catch(IOException e)

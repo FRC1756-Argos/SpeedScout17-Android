@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dkt01.speedscout16">
+    package="dkt01.speedscout17">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/SpeedScout16Theme">
+        android:theme="@style/SpeedScout17Theme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.dkt01.speedscout16.fileprovider"
+            android:authorities="com.dkt01.speedscout17.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -19,13 +19,13 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name="dkt01.speedscout17.MainActivity"
             android:label="@string/list_title"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="dkt01.speedscout17.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter
@@ -38,19 +38,19 @@
         </activity>
 
         <activity
-            android:name=".EntryActivity"
+            android:name="dkt01.speedscout17.EntryActivity"
             android:label="@string/entry_title"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".AboutActivity"
+            android:name="dkt01.speedscout17.AboutActivity"
             android:label="About"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="dkt01.speedscout17.MainActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="dkt01.speedscout17.MainActivity" />
         </activity>
     </application>
 

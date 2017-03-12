@@ -1,4 +1,4 @@
-package dkt01.speedscout16;
+package dkt01.speedscout17;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class MainActivity extends ActionBarActivity
 {
-    public final static String CREATE_MESSAGE = "com.dkt01.speedscout16.CREATE_MESSAGE";
+    public final static String CREATE_MESSAGE = "com.dkt01.speedscout17.CREATE_MESSAGE";
 
     public final static int ENTRY_REQUEST = 1756;
 
