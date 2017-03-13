@@ -87,13 +87,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:text="Defense:"/>
+                android:text="Crossed Baseline:"/>
             <Spinner
-                android:id="@+id/entry_auto_defense"
+                android:id="@+id/entry_auto_baseline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:entries="@array/auto_defense_array"/>
+                android:entries="@array/auto_baseline_array"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/entry_auto_low_boiler_inc"
+                android:onClick="autoLowIncClick"
+                android:layout_width="115dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:text="Low Boiler"/>
+            <Button
+                android:id="@+id/entry_auto_low_boiler_dec"
+                android:onClick="autoLowDecClick"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:textSize="14dp"
+                android:text="0"/>
+            <Button
+                android:id="@+id/entry_auto_high_boiler_inc"
+                android:onClick="autoHighIncClick"
+                android:layout_width="115dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                android:text="High Boiler"/>
+            <Button
+                android:id="@+id/entry_auto_high_boiler_dec"
+                android:onClick="autoHighDecClick"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:textSize="14dp"
+                android:text="0"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -104,13 +142,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:text="Goals:"/>
+                android:text="Gear Placed on Airship:"/>
             <Spinner
-                android:id="@+id/entry_auto_goal"
+                android:id="@+id/entry_auto_gear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:entries="@array/auto_score_array"/>
+                android:entries="@array/auto_gear_array"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -124,70 +162,32 @@
             android:orientation="horizontal"
             android:layout_gravity="center">
             <Button
-                android:id="@+id/entry_low_goal_inc"
-                android:onClick="lowGoalIncClick"
+                android:id="@+id/entry_tele_low_boiler_inc"
+                android:onClick="teleLowIncClick"
                 android:layout_width="115dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:textSize="16dp"
-                android:text="Low Goal"/>
+                android:text="Low Boiler"/>
             <Button
-                android:id="@+id/entry_low_goal_dec"
-                android:onClick="lowGoalDecClick"
+                android:id="@+id/entry_tele_low_boiler_dec"
+                android:onClick="teleLowDecClick"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:textSize="14dp"
                 android:text="0"/>
             <Button
-                android:id="@+id/entry_high_goal_inc"
-                android:onClick="HighGoalIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="16dp"
-                android:text="High Goal"/>
-            <Button
-                android:id="@+id/entry_high_goal_dec"
-                android:onClick="HighGoalDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/entry_portcullis_inc"
-                android:onClick="PortcullisIncClick"
+                android:id="@+id/entry_tele_high_boiler_inc"
+                android:onClick="teleHighIncClick"
                 android:layout_width="115dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:textSize="15dp"
-                android:text="Portcullis"/>
+                android:text="High Boiler"/>
             <Button
-                android:id="@+id/entry_portcullis_dec"
-                android:onClick="PortcullisDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-            <Button
-                android:id="@+id/entry_cheval_inc"
-                android:onClick="ChevalIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="13dp"
-                android:text="Cheval De Frise"/>
-            <Button
-                android:id="@+id/entry_cheval_dec"
-                android:onClick="ChevalDecClick"
+                android:id="@+id/entry_tele_high_boiler_dec"
+                android:onClick="teleHighDecClick"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -200,186 +200,38 @@
             android:orientation="horizontal"
             android:layout_gravity="center">
             <Button
-                android:id="@+id/entry_moat_inc"
-                android:onClick="MoatIncClick"
+                android:id="@+id/entry_tele_gear_inc"
+                android:onClick="teleGearIncClick"
                 android:layout_width="115dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:textSize="16dp"
-                android:text="Moat"/>
+                android:text="Gear"/>
             <Button
-                android:id="@+id/entry_moat_dec"
-                android:onClick="MoatDecClick"
+                android:id="@+id/entry_tele_gear_dec"
+                android:onClick="teleGearDecClick"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:textSize="14dp"
                 android:text="0"/>
-            <Button
-                android:id="@+id/entry_ramparts_inc"
-                android:onClick="RampartsIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:text="Ramparts"/>
-            <Button
-                android:id="@+id/entry_ramparts_dec"
-                android:onClick="RampartsDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/entry_drawbridge_inc"
-                android:onClick="DrawbridgeIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="Drawbridge"/>
-            <Button
-                android:id="@+id/entry_drawbridge_dec"
-                android:onClick="DrawbridgeDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-            <Button
-                android:id="@+id/entry_sallyport_inc"
-                android:onClick="SallyPortIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="15dp"
-                android:text="Sally Port"/>
-            <Button
-                android:id="@+id/entry_sallyport_dec"
-                android:onClick="SallyPortDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/entry_rockwall_inc"
-                android:onClick="RockWallIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
+                android:text="Climbed Airship:"/>
+            <Spinner
+                android:id="@+id/entry_tele_airship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:text="Rock Wall"/>
-            <Button
-                android:id="@+id/entry_rockwall_dec"
-                android:onClick="RockWallDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-            <Button
-                android:id="@+id/entry_roughterrain_inc"
-                android:onClick="RoughTerrainIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="13dp"
-                android:text="Rough Terrain"/>
-            <Button
-                android:id="@+id/entry_roughterrain_dec"
-                android:onClick="RoughTerrainDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
+                android:entries="@array/tele_airship_array"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/entry_lowbar_inc"
-                android:onClick="LowBarIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="16dp"
-                android:text="Low Bar"/>
-            <Button
-                android:id="@+id/entry_lowbar_dec"
-                android:onClick="LowBarDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/entry_robotblock_inc"
-                android:onClick="BlockRobotIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="Robots Blocked"/>
-            <Button
-                android:id="@+id/entry_robotblock_dec"
-                android:onClick="BlockRobotDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-            <Button
-                android:id="@+id/entry_shotblock_inc"
-                android:onClick="BlockShotIncClick"
-                android:layout_width="115dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="Shots Blocked"/>
-            <Button
-                android:id="@+id/entry_shotblock_dec"
-                android:onClick="BlockShotDecClick"
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:textSize="14dp"
-                android:text="0"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:text="Tower:"/>
-        <Spinner
-            android:id="@+id/entry_tower"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="18dp"
-            android:entries="@array/tele_tower_array"/>
     </LinearLayout>
 </ScrollView>

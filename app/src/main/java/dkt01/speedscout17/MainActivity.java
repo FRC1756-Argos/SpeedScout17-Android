@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
@@ -18,7 +18,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
 {
     public final static String CREATE_MESSAGE = "com.dkt01.speedscout17.CREATE_MESSAGE";
 

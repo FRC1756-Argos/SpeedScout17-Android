@@ -28,25 +28,14 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     public static final String TEAM_COL_NAME              = "team";
     public static final String ALLIANCE_COL_NAME          = "alliance";
     public static final String MATCH_COL_NAME             = "match";
-    public static final String AUTO_REACHED_COL_NAME      = "autoReached";
-    public static final String AUTO_CROSSED_COL_NAME      = "autoCrossed";
-    public static final String AUTO_LOWGOAL_COL_NAME      = "autoLowGoal";
-    public static final String AUTO_HIGHGOAL_COL_NAME     = "autoHighGoal";
-    public static final String TELE_LOWGOAL_COL_NAME      = "teleLowGoal";
-    public static final String TELE_HIGHGOAL_COL_NAME     = "teleHighGoal";
-    public static final String TELE_PORTCULLIS_COL_NAME   = "telePortcullis";
-    public static final String TELE_CHEVAL_COL_NAME       = "teleCheval";
-    public static final String TELE_MOAT_COL_NAME         = "teleMoat";
-    public static final String TELE_RAMP_COL_NAME         = "teleRamp";
-    public static final String TELE_DRAWBRIDGE_COL_NAME   = "teleDrawBridge";
-    public static final String TELE_SALLYPORT_COL_NAME    = "teleSallyPort";
-    public static final String TELE_ROCKWALL_COL_NAME     = "teleRockWall";
-    public static final String TELE_ROUGHTERRAIN_COL_NAME = "teleRoughTerrain";
-    public static final String TELE_LOWBAR_COL_NAME       = "teleLowBar";
-    public static final String TELE_BLOCKROBOT_COL_NAME   = "teleBlockRobot";
-    public static final String TELE_BLOCKSHOT_COL_NAME    = "teleBlockShot";
-    public static final String TELE_CHALLENGE_COL_NAME    = "teleChallenge";
-    public static final String TELE_SCALE_COL_NAME        = "teleScale";
+    public static final String AUTO_BASELINE_COL_NAME     = "autoBaseline";
+    public static final String AUTO_LOWBOILER_COL_NAME    = "autoLowBoiler";
+    public static final String AUTO_HIGHBOILER_COL_NAME   = "autoHighBoiler";
+    public static final String AUTO_GEAR_COL_NAME         = "autoGear";
+    public static final String TELE_LOWBOILER_COL_NAME    = "teleLowBoiler";
+    public static final String TELE_HIGHBOILER_COL_NAME   = "teleHighBoiler";
+    public static final String TELE_GEAR_COL_NAME         = "teleGear";
+    public static final String TELE_CLIMB_COL_NAME        = "teleClimb";
 
     private final Context m_context;
     private static SQLiteDatabase m_db;
@@ -66,25 +55,14 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         createCommand.append(TEAM_COL_NAME +              " INTEGER, ");
         createCommand.append(ALLIANCE_COL_NAME +          " TEXT, ");
         createCommand.append(MATCH_COL_NAME +             " INTEGER, ");
-        createCommand.append(AUTO_REACHED_COL_NAME +      " TEXT, ");
-        createCommand.append(AUTO_CROSSED_COL_NAME +      " TEXT, ");
-        createCommand.append(AUTO_LOWGOAL_COL_NAME +      " TEXT, ");
-        createCommand.append(AUTO_HIGHGOAL_COL_NAME +     " TEXT, ");
-        createCommand.append(TELE_LOWGOAL_COL_NAME +      " INTEGER, ");
-        createCommand.append(TELE_HIGHGOAL_COL_NAME +     " INTEGER, ");
-        createCommand.append(TELE_PORTCULLIS_COL_NAME +   " INTEGER, ");
-        createCommand.append(TELE_CHEVAL_COL_NAME +       " INTEGER, ");
-        createCommand.append(TELE_MOAT_COL_NAME +         " INTEGER, ");
-        createCommand.append(TELE_RAMP_COL_NAME +         " INTEGER, ");
-        createCommand.append(TELE_DRAWBRIDGE_COL_NAME +   " INTEGER, ");
-        createCommand.append(TELE_SALLYPORT_COL_NAME +    " INTEGER, ");
-        createCommand.append(TELE_ROCKWALL_COL_NAME +     " INTEGER, ");
-        createCommand.append(TELE_ROUGHTERRAIN_COL_NAME + " INTEGER, ");
-        createCommand.append(TELE_LOWBAR_COL_NAME +       " INTEGER, ");
-        createCommand.append(TELE_BLOCKROBOT_COL_NAME +   " INTEGER, ");
-        createCommand.append(TELE_BLOCKSHOT_COL_NAME +    " INTEGER, ");
-        createCommand.append(TELE_CHALLENGE_COL_NAME +    " TEXT, ");
-        createCommand.append(TELE_SCALE_COL_NAME +        " TEXT");
+        createCommand.append(AUTO_BASELINE_COL_NAME +     " TEXT, ");
+        createCommand.append(AUTO_LOWBOILER_COL_NAME +    " INTEGER, ");
+        createCommand.append(AUTO_HIGHBOILER_COL_NAME +   " INTEGER, ");
+        createCommand.append(AUTO_GEAR_COL_NAME +         " TEXT, ");
+        createCommand.append(TELE_LOWBOILER_COL_NAME +    " INTEGER, ");
+        createCommand.append(TELE_HIGHBOILER_COL_NAME +   " INTEGER, ");
+        createCommand.append(TELE_GEAR_COL_NAME +         " INTEGER, ");
+        createCommand.append(TELE_CLIMB_COL_NAME +        " TEXT");
         createCommand.append(");");
 
         db.execSQL(createCommand.toString());
@@ -118,72 +96,44 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         return matches;
     }
 
-    public boolean insertMatch  (int time, int team, String alliance, int match, String autoReach,
-                                 String autoCross, String autoLow, String autoHigh, int teleLow,
-                                 int teleHigh, int portcullis, int cheval, int moat, int ramp,
-                                 int drawBridge, int sallyPort, int rockWall, int roughTerrain,
-                                 int lowBar, int blockRobot, int blockShot, String challenge,
-                                 String scale)
+    public boolean insertMatch  (int time, int team, String alliance, int match, String autoBaseline,
+                                 int autoLow, int autoHigh, String autoGear, int teleLow,
+                                 int teleHigh, int teleGear, String teleClimb)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TIME_COL_NAME,time);
         contentValues.put(TEAM_COL_NAME,team);
         contentValues.put(ALLIANCE_COL_NAME,alliance);
         contentValues.put(MATCH_COL_NAME,match);
-        contentValues.put(AUTO_REACHED_COL_NAME,autoReach);
-        contentValues.put(AUTO_CROSSED_COL_NAME,autoCross);
-        contentValues.put(AUTO_LOWGOAL_COL_NAME,autoLow);
-        contentValues.put(AUTO_HIGHGOAL_COL_NAME,autoHigh);
-        contentValues.put(TELE_LOWGOAL_COL_NAME,teleLow);
-        contentValues.put(TELE_HIGHGOAL_COL_NAME,teleHigh);
-        contentValues.put(TELE_PORTCULLIS_COL_NAME,portcullis);
-        contentValues.put(TELE_CHEVAL_COL_NAME,cheval);
-        contentValues.put(TELE_MOAT_COL_NAME,moat);
-        contentValues.put(TELE_RAMP_COL_NAME,ramp);
-        contentValues.put(TELE_DRAWBRIDGE_COL_NAME,drawBridge);
-        contentValues.put(TELE_SALLYPORT_COL_NAME,sallyPort);
-        contentValues.put(TELE_ROCKWALL_COL_NAME,rockWall);
-        contentValues.put(TELE_ROUGHTERRAIN_COL_NAME,roughTerrain);
-        contentValues.put(TELE_LOWBAR_COL_NAME,lowBar);
-        contentValues.put(TELE_BLOCKROBOT_COL_NAME,blockRobot);
-        contentValues.put(TELE_BLOCKSHOT_COL_NAME,blockShot);
-        contentValues.put(TELE_CHALLENGE_COL_NAME,challenge);
-        contentValues.put(TELE_SCALE_COL_NAME,scale);
+        contentValues.put(AUTO_BASELINE_COL_NAME,autoBaseline);
+        contentValues.put(AUTO_LOWBOILER_COL_NAME,autoLow);
+        contentValues.put(AUTO_HIGHBOILER_COL_NAME,autoHigh);
+        contentValues.put(AUTO_GEAR_COL_NAME,autoGear);
+        contentValues.put(TELE_LOWBOILER_COL_NAME,teleLow);
+        contentValues.put(TELE_HIGHBOILER_COL_NAME,teleHigh);
+        contentValues.put(TELE_GEAR_COL_NAME,teleGear);
+        contentValues.put(TELE_CLIMB_COL_NAME,teleClimb);
         m_db.insert(MATCHES_TABLE_NAME, null, contentValues);
         return true;
     }
 
-    public boolean updateMatch  (int time, int team, String alliance, int match, String autoReach,
-                                 String autoCross, String autoLow, String autoHigh, int teleLow,
-                                 int teleHigh, int portcullis, int cheval, int moat, int ramp,
-                                 int drawBridge, int sallyPort, int rockWall, int roughTerrain,
-                                 int lowBar, int blockRobot, int blockShot, String challenge,
-                                 String scale)
+    public boolean updateMatch  (int time, int team, String alliance, int match, String autoBaseline,
+                                 int autoLow, int autoHigh, String autoGear, int teleLow,
+                                 int teleHigh, int teleGear, String teleClimb)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TIME_COL_NAME,time);
         contentValues.put(TEAM_COL_NAME,team);
         contentValues.put(ALLIANCE_COL_NAME,alliance);
         contentValues.put(MATCH_COL_NAME,match);
-        contentValues.put(AUTO_REACHED_COL_NAME,autoReach);
-        contentValues.put(AUTO_CROSSED_COL_NAME,autoCross);
-        contentValues.put(AUTO_LOWGOAL_COL_NAME,autoLow);
-        contentValues.put(AUTO_HIGHGOAL_COL_NAME,autoHigh);
-        contentValues.put(TELE_LOWGOAL_COL_NAME,teleLow);
-        contentValues.put(TELE_HIGHGOAL_COL_NAME,teleHigh);
-        contentValues.put(TELE_PORTCULLIS_COL_NAME,portcullis);
-        contentValues.put(TELE_CHEVAL_COL_NAME,cheval);
-        contentValues.put(TELE_MOAT_COL_NAME,moat);
-        contentValues.put(TELE_RAMP_COL_NAME,ramp);
-        contentValues.put(TELE_DRAWBRIDGE_COL_NAME,drawBridge);
-        contentValues.put(TELE_SALLYPORT_COL_NAME,sallyPort);
-        contentValues.put(TELE_ROCKWALL_COL_NAME,rockWall);
-        contentValues.put(TELE_ROUGHTERRAIN_COL_NAME,roughTerrain);
-        contentValues.put(TELE_LOWBAR_COL_NAME,lowBar);
-        contentValues.put(TELE_BLOCKROBOT_COL_NAME,blockRobot);
-        contentValues.put(TELE_BLOCKSHOT_COL_NAME,blockShot);
-        contentValues.put(TELE_CHALLENGE_COL_NAME,challenge);
-        contentValues.put(TELE_SCALE_COL_NAME,scale);
+        contentValues.put(AUTO_BASELINE_COL_NAME,autoBaseline);
+        contentValues.put(AUTO_LOWBOILER_COL_NAME,autoLow);
+        contentValues.put(AUTO_HIGHBOILER_COL_NAME,autoHigh);
+        contentValues.put(AUTO_GEAR_COL_NAME,autoGear);
+        contentValues.put(TELE_LOWBOILER_COL_NAME,teleLow);
+        contentValues.put(TELE_HIGHBOILER_COL_NAME,teleHigh);
+        contentValues.put(TELE_GEAR_COL_NAME,teleGear);
+        contentValues.put(TELE_CLIMB_COL_NAME,teleClimb);
         m_db.update(MATCHES_TABLE_NAME, contentValues, TIME_COL_NAME + " = ? ", new String[] { Integer.toString(time) } );
         return true;
     }
@@ -245,45 +195,23 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 fileData.append("\nMatch #, ");
                 fileData.append(String.valueOf(result.getInt(result.getColumnIndex(MATCH_COL_NAME))));
                 fileData.append("\n, Autonomous");
-                fileData.append("\nReached Def., ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_REACHED_COL_NAME)));
-                fileData.append("\nCrossed Def., ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_CROSSED_COL_NAME)));
-                fileData.append("\nLow Goal, ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_LOWGOAL_COL_NAME)));
-                fileData.append("\nHigh Goal, ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_HIGHGOAL_COL_NAME)));
+                fileData.append("\nCrossed BLine, ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_BASELINE_COL_NAME)));
+                fileData.append("\nLow Boiler, ");
+                fileData.append(result.getInt(result.getColumnIndex(AUTO_LOWBOILER_COL_NAME)));
+                fileData.append("\nHigh Boiler, ");
+                fileData.append(result.getInt(result.getColumnIndex(AUTO_HIGHBOILER_COL_NAME)));
+                fileData.append("\nGear, ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_BASELINE_COL_NAME)));
                 fileData.append("\n, Teleop");
-                fileData.append("\nLow Goal, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_LOWGOAL_COL_NAME))));
-                fileData.append("\nHigh Goal, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_HIGHGOAL_COL_NAME))));
-                fileData.append("\nPortcullis, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_PORTCULLIS_COL_NAME))));
-                fileData.append("\nCheval De Frise, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_CHEVAL_COL_NAME))));
-                fileData.append("\nMoat, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_MOAT_COL_NAME))));
-                fileData.append("\nRamparts, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_RAMP_COL_NAME))));
-                fileData.append("\nDrawbridge, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_DRAWBRIDGE_COL_NAME))));
-                fileData.append("\nSally Port, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_SALLYPORT_COL_NAME))));
-                fileData.append("\nRock Wall, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_ROCKWALL_COL_NAME))));
-                fileData.append("\nRough Terrain, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_ROUGHTERRAIN_COL_NAME))));
-                fileData.append("\nLow Bar, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_LOWBAR_COL_NAME))));
-                fileData.append("\nRobots Blocked, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_BLOCKROBOT_COL_NAME))));
-                fileData.append("\nShots Blocked, ");
-                fileData.append(String.valueOf(result.getInt(result.getColumnIndex(TELE_BLOCKSHOT_COL_NAME))));
-                fileData.append("\nChallenged Tower, ");
-                fileData.append(result.getString(result.getColumnIndex(TELE_CHALLENGE_COL_NAME)));
-                fileData.append("\nScaled Tower, ");
-                fileData.append(result.getString(result.getColumnIndex(TELE_SCALE_COL_NAME)));
+                fileData.append("\nLow Boiler, ");
+                fileData.append(result.getInt(result.getColumnIndex(TELE_LOWBOILER_COL_NAME)));
+                fileData.append("\nHigh Boiler, ");
+                fileData.append(result.getInt(result.getColumnIndex(TELE_HIGHBOILER_COL_NAME)));
+                fileData.append("\nGears, ");
+                fileData.append(result.getInt(result.getColumnIndex(TELE_GEAR_COL_NAME)));
+                fileData.append("\nClimbed AShip, ");
+                fileData.append(result.getString(result.getColumnIndex(AUTO_BASELINE_COL_NAME)));
 
                 File matchFile = null;
                 FileWriter matchFileWriter = null;
