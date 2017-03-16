@@ -202,7 +202,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 fileData.append("\nHigh Boiler, ");
                 fileData.append(result.getInt(result.getColumnIndex(AUTO_HIGHBOILER_COL_NAME)));
                 fileData.append("\nGear, ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_BASELINE_COL_NAME)));
+                fileData.append(result.getString(result.getColumnIndex(AUTO_GEAR_COL_NAME)));
                 fileData.append("\n, Teleop");
                 fileData.append("\nLow Boiler, ");
                 fileData.append(result.getInt(result.getColumnIndex(TELE_LOWBOILER_COL_NAME)));
@@ -211,7 +211,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 fileData.append("\nGears, ");
                 fileData.append(result.getInt(result.getColumnIndex(TELE_GEAR_COL_NAME)));
                 fileData.append("\nClimbed AShip, ");
-                fileData.append(result.getString(result.getColumnIndex(AUTO_BASELINE_COL_NAME)));
+                fileData.append(result.getString(result.getColumnIndex(TELE_CLIMB_COL_NAME)));
 
                 File matchFile = null;
                 FileWriter matchFileWriter = null;
