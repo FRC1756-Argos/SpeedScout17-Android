@@ -56,6 +56,7 @@ public class EntryActivity extends AppCompatActivity {
     private Button teleHighBoilerDecButton;
     private Button teleGearDecButton;
     private Spinner teleAirshipSpinner;
+    private EditText commentEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class EntryActivity extends AppCompatActivity {
         teleHighBoilerDecButton = (Button) findViewById(R.id.entry_tele_high_boiler_dec);
         teleGearDecButton = (Button) findViewById(R.id.entry_tele_gear_dec);
         teleAirshipSpinner = (Spinner) findViewById(R.id.entry_tele_airship);
+        commentEditText = (EditText) findViewById(R.id.entry_comments);
 
         matchTime = genesisIntent.getIntExtra(MainActivity.CREATE_MESSAGE, 0);
         matchesDB = new ScoutingDataDBHelper(this);
@@ -168,6 +170,8 @@ public class EntryActivity extends AppCompatActivity {
         teleHighBoilerDecButton.setText(String.valueOf(teleHighBoilerCount));
         teleGearDecButton.setText(String.valueOf(teleGearCount));
 
+        commentEditText.setText(String.valueOf(matchData.getString(matchData.getColumnIndex(ScoutingDataDBHelper.COMMENTS_COL_NAME))));
+
         if (autoBaseLineString.equals(YES)) {
             autoBaselineSpinner.setSelection(INDEX_AUTO_BASELINE_YES);
         } else if (autoBaseLineString.equals(NO)) {
@@ -249,6 +253,8 @@ public class EntryActivity extends AppCompatActivity {
                 teleClimbString = NO;
         }
 
+        String comments = commentEditText.getText().toString();
+
         int teamNum = Integer.parseInt(teamNumEditText.getText().toString());
         int matchNum = Integer.parseInt(matchNumEditText.getText().toString());
         String alliance = teamColorButton.isChecked() ? "Blue" : "Red";
@@ -256,11 +262,11 @@ public class EntryActivity extends AppCompatActivity {
             matchTime = (int) (Calendar.getInstance().getTimeInMillis() % Integer.MAX_VALUE);
             matchesDB.insertMatch(matchTime, teamNum, alliance, matchNum, autoBaselineString, autoLowBoilerCount,
                     autoHighBoilerCount, autoGearString, teleLowBoilerCount, teleHighBoilerCount,
-                    teleGearCount, teleClimbString);
+                    teleGearCount, teleClimbString, comments);
         } else {
             matchesDB.updateMatch(matchTime, teamNum, alliance, matchNum, autoBaselineString, autoLowBoilerCount,
                     autoHighBoilerCount, autoGearString, teleLowBoilerCount, teleHighBoilerCount,
-                    teleGearCount, teleClimbString);
+                    teleGearCount, teleClimbString, comments);
         }
 
         return true;

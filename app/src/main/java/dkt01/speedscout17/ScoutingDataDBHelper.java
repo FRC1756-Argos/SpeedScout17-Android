@@ -21,7 +21,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     // Database properties
     private static final String DATABASE_NAME             = "Matches.db";
     private static final String MATCHES_TABLE_NAME        = "matches";
-    private static final int DATABASE_VERSION             = 4;
+    private static final int DATABASE_VERSION             = 5;
 
     // Table properties
     public static final String TIME_COL_NAME              = "time";
@@ -36,6 +36,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     public static final String TELE_HIGHBOILER_COL_NAME   = "teleHighBoiler";
     public static final String TELE_GEAR_COL_NAME         = "teleGear";
     public static final String TELE_CLIMB_COL_NAME        = "teleClimb";
+    public static final String COMMENTS_COL_NAME          = "comments";
 
     private final Context m_context;
     private static SQLiteDatabase m_db;
@@ -62,7 +63,8 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         createCommand.append(TELE_LOWBOILER_COL_NAME +    " INTEGER, ");
         createCommand.append(TELE_HIGHBOILER_COL_NAME +   " INTEGER, ");
         createCommand.append(TELE_GEAR_COL_NAME +         " INTEGER, ");
-        createCommand.append(TELE_CLIMB_COL_NAME +        " TEXT");
+        createCommand.append(TELE_CLIMB_COL_NAME +        " TEXT, ");
+        createCommand.append(COMMENTS_COL_NAME +          " TEXT");
         createCommand.append(");");
 
         db.execSQL(createCommand.toString());
@@ -70,9 +72,15 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This might need changed...
-        db.execSQL("DROP TABLE IF EXISTS " + MATCHES_TABLE_NAME);
-        this.onCreate(db);
+        // Add columns as necessary
+        switch (oldVersion)
+        {
+            case 4:
+                db.execSQL("ALTER TABLE " + MATCHES_TABLE_NAME + " ADD COLUMN " + COMMENTS_COL_NAME + " STRING");
+                break;
+            default:
+                Log.e("onUpgrade", "Invalid old database version: " + Integer.toString(oldVersion));
+        }
     }
 
     public ArrayList<Pair<Integer, String> > getMatches()
@@ -98,7 +106,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
 
     public boolean insertMatch  (int time, int team, String alliance, int match, String autoBaseline,
                                  int autoLow, int autoHigh, String autoGear, int teleLow,
-                                 int teleHigh, int teleGear, String teleClimb)
+                                 int teleHigh, int teleGear, String teleClimb, String comments)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TIME_COL_NAME,time);
@@ -113,13 +121,14 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         contentValues.put(TELE_HIGHBOILER_COL_NAME,teleHigh);
         contentValues.put(TELE_GEAR_COL_NAME,teleGear);
         contentValues.put(TELE_CLIMB_COL_NAME,teleClimb);
+        contentValues.put(COMMENTS_COL_NAME,comments);
         m_db.insert(MATCHES_TABLE_NAME, null, contentValues);
         return true;
     }
 
     public boolean updateMatch  (int time, int team, String alliance, int match, String autoBaseline,
                                  int autoLow, int autoHigh, String autoGear, int teleLow,
-                                 int teleHigh, int teleGear, String teleClimb)
+                                 int teleHigh, int teleGear, String teleClimb, String comments)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TIME_COL_NAME,time);
@@ -134,6 +143,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
         contentValues.put(TELE_HIGHBOILER_COL_NAME,teleHigh);
         contentValues.put(TELE_GEAR_COL_NAME,teleGear);
         contentValues.put(TELE_CLIMB_COL_NAME,teleClimb);
+        contentValues.put(COMMENTS_COL_NAME,comments);
         m_db.update(MATCHES_TABLE_NAME, contentValues, TIME_COL_NAME + " = ? ", new String[] { Integer.toString(time) } );
         return true;
     }
@@ -212,6 +222,9 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
                 fileData.append(result.getInt(result.getColumnIndex(TELE_GEAR_COL_NAME)));
                 fileData.append("\nClimbed AShip, ");
                 fileData.append(result.getString(result.getColumnIndex(TELE_CLIMB_COL_NAME)));
+                fileData.append("\n, Comments");
+                fileData.append("\nComments,");
+                fileData.append(convertStringForCsv(result.getString(result.getColumnIndex(COMMENTS_COL_NAME))));
 
                 File matchFile = null;
                 FileWriter matchFileWriter = null;
@@ -246,5 +259,12 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     {
         if (m_db != null)
             m_db.close();
+    }
+
+    private String convertStringForCsv(String inString)
+    {
+        String retVal = inString.replace(',',';');
+        retVal = retVal.replace('\n',' ');
+        return retVal;
     }
 }
