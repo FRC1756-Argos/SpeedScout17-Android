@@ -1,5 +1,7 @@
 package dkt01.speedscout17;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
@@ -22,5 +24,20 @@ public class AboutActivity extends AppCompatActivity {
         tv4.setMovementMethod(LinkMovementMethod.getInstance());
         TextView tv5 = (TextView)findViewById(R.id.about_5_textview);
         tv5.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // Display version info on about screen
+        TextView versionField = (TextView)findViewById(R.id.appVersion);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = "Not Available";
+        if(pInfo != null)
+        {
+            version = pInfo.versionName;
+        }
+        versionField.setText(version);
     }
 }
