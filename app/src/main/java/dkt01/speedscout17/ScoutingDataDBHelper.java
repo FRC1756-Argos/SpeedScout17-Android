@@ -263,8 +263,12 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
 
     private String convertStringForCsv(String inString)
     {
-        String retVal = inString.replace(',',';');
-        retVal = retVal.replace('\n',' ');
+        String retVal = "";
+        if(null == inString)
+        {
+            retVal = inString.replace(',', ';');
+            retVal = retVal.replace('\n', ' ');
+        }
         return retVal;
     }
 }
