@@ -264,8 +264,10 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     private String convertStringForCsv(String inString)
     {
         String retVal = "";
-        if(null == inString)
+        //Ensure input string is not null
+        if(inString!=null)
         {
+            //Santize String for CSV, replace commans with semicolons, replace newlines with spaces
             retVal = inString.replace(',', ';');
             retVal = retVal.replace('\n', ' ');
         }
