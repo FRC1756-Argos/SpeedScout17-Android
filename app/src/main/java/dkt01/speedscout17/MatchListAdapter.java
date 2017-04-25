@@ -67,6 +67,7 @@ public class MatchListAdapter extends BaseAdapter
                 mIdList.remove(kvPair.indexOf(entry));
                 kvPair.remove(entry);
                 removed = true;
+                break;
             }
         }
         if(removed)
@@ -93,7 +94,7 @@ public class MatchListAdapter extends BaseAdapter
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return kvPair.get(position).first;
     }
 
     @Override

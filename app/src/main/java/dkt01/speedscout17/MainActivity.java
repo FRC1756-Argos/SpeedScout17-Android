@@ -131,10 +131,9 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.action_share:
                 ArrayList<Integer> times = new ArrayList<>();
-                selected = matchesListView.getCheckedItemPositions();
-                for(int position = 0; position < selected.size(); position++)
+                for(int position = 0; position < matchesListAdapter.getCount(); position++)
                 {
-                    if(selected.valueAt(position))
+                    if(matchesListView.isItemChecked(position))
                     {
                         times.add(matchesListAdapter.getEntry(position).first);
                     }
@@ -185,19 +184,17 @@ public class MainActivity extends AppCompatActivity
         cancelButton.setVisible(false);
         shareButton.setVisible(false);
         deleteButton.setVisible(false);
-        SparseBooleanArray selected = matchesListView.getCheckedItemPositions();
         // Go in reverse to preserve indices
-        for(int position = 0; position < selected.size(); position++)
+        for(int position = matchesListAdapter.getCount() - 1; position >= 0; position--)
         {
-            if(selected.valueAt(position))
+            if(matchesListView.isItemChecked(position))
             {
                 Pair<Integer, String> temp = matchesListAdapter.getEntry(position);
                 matchesDB.deleteMatch(temp.first);
+                matchesListAdapter.remove(temp.first);
             }
         }
-        matchesList.clear();
-        matchesList = matchesDB.getMatches();
-        matchesListAdapter.Update(matchesList);
+        matchesListAdapter.notifyDataSetChanged();
         selectAll(false);
         matchesListAdapter.showCheckBoxes(false);
         matchesListView.setOnItemClickListener(matchClickListener);
