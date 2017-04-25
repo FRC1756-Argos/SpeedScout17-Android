@@ -265,7 +265,7 @@ public class ScoutingDataDBHelper extends SQLiteOpenHelper {
     {
         String retVal = "";
         //Ensure input string is not null
-        if(inString!=null)
+        if(null != inString)
         {
             //Santize String for CSV, replace commans with semicolons, replace newlines with spaces
             retVal = inString.replace(',', ';');

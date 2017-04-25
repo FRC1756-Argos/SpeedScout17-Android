@@ -170,7 +170,15 @@ public class EntryActivity extends AppCompatActivity {
         teleHighBoilerDecButton.setText(String.valueOf(teleHighBoilerCount));
         teleGearDecButton.setText(String.valueOf(teleGearCount));
 
-        commentEditText.setText(String.valueOf(matchData.getString(matchData.getColumnIndex(ScoutingDataDBHelper.COMMENTS_COL_NAME))));
+        String commentsString = matchData.getString(matchData.getColumnIndex(ScoutingDataDBHelper.COMMENTS_COL_NAME));
+        if (null != commentsString)
+        {
+            commentEditText.setText(String.valueOf(commentsString));
+        }
+        else
+        {
+            commentEditText.setText("");
+        }
 
         if (autoBaseLineString.equals(YES)) {
             autoBaselineSpinner.setSelection(INDEX_AUTO_BASELINE_YES);
